@@ -1,8 +1,7 @@
 AU-AIR Object Detection Assignment
 1. Dataset Overview
 
-Dataset: AU-AIR
- – aerial images of traffic scenes with object bounding box annotations.
+Dataset: AU-AIR – aerial images of traffic scenes with object bounding box annotations.
 
 Original size: 32,823 images, 8 categories (Van, Car, Trailer, Human, Truck, Bus, Bicycle, Motorbike).
 
@@ -41,11 +40,11 @@ Each image has a .txt label file with:
 class_id x_center y_center width height
 
 
-(normalized to [0,1])
+(all normalized to [0,1]).
 
-Created folder structure:
+Folder structure:
 
-dataset/images_subset/
+dataset/
  ├── images/
  │    ├── train/
  │    └── val/
@@ -67,11 +66,18 @@ Batch size: 16
 
 Dataset: 15% AU-AIR subset
 
-Training command in Python using Ultralytics YOLO API:
+Training code:
 
 from ultralytics import YOLO
+
 model = YOLO("yolov8n.pt")
-model.train(data="dataset_config.yaml", epochs=10, imgsz=640, batch=16, name="auair_15pct_yolov8")
+model.train(
+    data="dataset_config.yaml", 
+    epochs=10, 
+    imgsz=640, 
+    batch=16, 
+    name="auair_15pct_yolov8"
+)
 
 
 Weights saved at: runs/train/auair_15pct_yolov8/weights/best.pt
@@ -80,7 +86,11 @@ Weights saved at: runs/train/auair_15pct_yolov8/weights/best.pt
 
 Ran predictions on a few validation images.
 
-Bounding boxes and class labels plotted using YOLOv8 plotting API (results[0].plot()).
+Bounding boxes and class labels plotted using YOLOv8 API:
+
+results = model("dataset/images/val/example.jpg")
+results[0].plot()
+
 
 Example visualizations included in outputs/ folder.
 
@@ -88,18 +98,19 @@ Example visualizations included in outputs/ folder.
 
 Handling large images: resize or tile images to reduce memory/computation.
 
-Class imbalance: sparse classes (Motorbike, Bus, Bicycle) could be augmented/oversampled.
+Class imbalance: sparse classes (Motorbike, Bus, Bicycle) → augment/oversample.
 
-Longer training / larger models: for higher accuracy, use YOLOv8m/l with more epochs.
+Longer training / larger models: YOLOv8m/l with more epochs.
 
-Additional preprocessing: advanced augmentations (rotation, brightness, blur) to improve robustness.
+Advanced augmentations: rotation, brightness, blur, etc. for robustness.
 
 7. Notes
 
-Accuracy is not the main focus; the goal was to demonstrate full pipeline: dataset exploration → cleaning → format conversion → training → inference → visualization.
+Accuracy is not the main focus; goal is to demonstrate full pipeline:
+dataset exploration → cleaning → format conversion → training → inference → visualization.
 
 AI tools used:
 
-ChatGPT for guidance, code snippets, and workflow planning.
+ChatGPT: guidance, code snippets, workflow planning.
 
-Ultralytics YOLOv8 for object detection training and inference.
+Ultralytics YOLOv8: object detection training & inference.
