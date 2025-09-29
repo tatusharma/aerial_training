@@ -1,0 +1,6 @@
+# dataset_config.yaml
+train: dataset/images_subset/images/train
+val: dataset/images_subset/images/val
+
+nc: 8  # number of classes
+names: ['Van', 'Car', 'Trailer', 'Human', 'Truck', 'Bus', 'Bicycle', 'Motorbike']
